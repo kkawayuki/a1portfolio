@@ -21,8 +21,8 @@ const projects = [
     live: 'https://crud-marketplace-front.vercel.app/',
   },
   {
-    title: 'BUF',
-    keyword: 'Frontend',
+    title: 'TEMP',
+    keyword: 'TEMP',
     description: 'short description of the marketplace frontend',
     tech: ['React'],
     video: '',
