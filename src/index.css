@@ -147,8 +147,7 @@ ul {
   background: var(--accent);
 }
 
-/* projects dropdown: toggled by hovering the projects link (shown only while the bar is expanded),
-   also opens on keyboard focus; items appear one by one */
+/* projects dropdown: open whenever the bar is expanded (hover or focus); items appear one by one */
 .nav-submenu {
   display: grid;
   grid-template-rows: 0fr; /* animates to 1fr to slide open */
@@ -156,8 +155,8 @@ ul {
   transition: grid-template-rows 0.25s ease, visibility 0.25s;
 }
 
-.navbar:hover .nav-submenu.open,
-.navbar li:focus-within > .nav-submenu {
+.navbar:hover .nav-submenu,
+.navbar:focus-within .nav-submenu {
   grid-template-rows: 1fr;
   visibility: visible;
 }
@@ -180,8 +179,8 @@ ul {
   transition: opacity 0.15s ease, transform 0.15s ease;
 }
 
-.navbar:hover .nav-submenu.open li,
-.navbar li:focus-within > .nav-submenu li {
+.navbar:hover .nav-submenu li,
+.navbar:focus-within .nav-submenu li {
   opacity: 1;
   transform: none;
   transition-delay: calc(var(--i) * var(--type-speed));
@@ -430,13 +429,19 @@ section + section {
     display: none;
   }
 
+  /* icons, padding and gaps scale down with the viewport so all icons fit on narrow screens */
   .navbar a {
-    padding: 0.4rem 0.5rem;
+    padding: 0.4rem min(0.5rem, 1.5vw);
+  }
+
+  .nav-icon {
+    width: min(1.5rem, 6vw);
+    height: min(1.5rem, 6vw);
   }
 
   .navbar ul {
     display: flex;
-    gap: 0.75rem;
+    gap: min(0.75rem, 2vw);
   }
 
   .navbar li {

@@ -33,8 +33,6 @@ const links = [
 function Navbar({ onSelectProject }) {
   // label of the link being hovered/focused, shown as "/#label" after the domain
   const [active, setActive] = useState(null)
-  // projects dropdown flips open/closed each time the projects link is hovered
-  const [projectsOpen, setProjectsOpen] = useState(false)
 
   return (
     <nav className="navbar">
@@ -73,12 +71,7 @@ function Navbar({ onSelectProject }) {
               if (!e.currentTarget.contains(e.relatedTarget)) setActive(null)
             }}
           >
-            <a
-              href={link.href}
-              onMouseEnter={
-                link.label === 'projects' ? () => setProjectsOpen((open) => !open) : undefined
-              }
-            >
+            <a href={link.href}>
               <svg
                 className="nav-icon"
                 viewBox="0 0 24 24"
@@ -93,7 +86,7 @@ function Navbar({ onSelectProject }) {
               <span className="nav-label">{link.label}</span>
             </a>
             {link.label === 'projects' && (
-              <div className={projectsOpen ? 'nav-submenu open' : 'nav-submenu'}>
+              <div className="nav-submenu">
                 <ul>
                   {projects.map((p, i) => (
                     <li key={p.title} style={{ '--i': i }}>
