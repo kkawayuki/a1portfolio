@@ -1,23 +1,23 @@
 :root {
-  --bg: #aec2d3;
-  --panel: #5f7184;
-  --panel-light: #8fa6ba;
-  --nav: #8ea3b6;
-  --divider: #e07a7a;
-  --footer: #41689a;
-  --text: #ffffff;
-  --dark: #222;
+  /* theme colors */
+  --text: #fbf9f0;   /* all text */
+  --light: #babab7;  /* page background */
+  --mid: #565050;    /* navbar, hero, panels, footer */
+  --dark: #181714;   /* video preview, hover bands, chips */
+  --accent: #914b4b; /* dividers, live-site button */
   --nav-width: 4rem; /* collapsed (icons only) */
   --nav-width-open: 10.625rem; /* on hover */
-  --page-margin: 10%; /* side margins around the content */
+  --page-margin: 15%; /* side margins around the content */
+  --type-speed: 60ms; /* delay between characters in the navbar typing effect */
+  --indent: 1rem; /* inner padding for text inside boxes/bands */
 
   font-family: Arial, Helvetica, sans-serif;
   color: var(--text);
-  background: var(--bg);
+  background: var(--light);
 }
 
 html {
-  font-size: 140%; /* scales the whole site; everything below is in rem */
+  font-size: 140%;
   scroll-behavior: smooth;
 }
 
@@ -27,17 +27,24 @@ html {
 
 body {
   margin: 0;
-  background: var(--bg);
+  background: var(--light);
 }
 
 h1{
-    font-size: 3rem;
+    font-size: 2rem;
 }
 
 h1,
 h2 {
   font-weight: normal;
   margin: 0 0 0.75rem;
+  background-color: var(--dark);
+  padding: 0.375rem 0;
+}
+
+/* section headers line up with the text in the project panels */
+h2 {
+  padding-inline: var(--indent);
 }
 
 a {
@@ -64,7 +71,7 @@ ul {
   width: var(--nav-width);
   height: 100vh;
   padding: 1rem 0;
-  background: var(--nav);
+  background: var(--dark);
   overflow: hidden;
   transition: width 0.2s ease, box-shadow 0.2s ease;
 }
@@ -89,12 +96,38 @@ ul {
   padding: 0 0 0 calc(var(--nav-width) / 2 - 1.67 * 0.8rem);
   font-size: 0.8rem;
   transition: font-size 0.2s ease;
+  background-color: var(--dark);
 }
 
-/* name grows to fill the wider bar when expanded */
+/* name grows when expanded; sized so "kykawa.com/#projects" fits the open bar */
 .navbar:hover .navbar-title,
 .navbar:focus-within .navbar-title {
-  font-size: 1.1rem;
+  font-size: 0.9rem;
+}
+
+/* ".com" types in one character per --type-speed and vanishes instantly on collapse */
+.navbar-domain span {
+  opacity: 0;
+}
+
+.navbar:hover .navbar-domain span,
+.navbar:focus-within .navbar-domain span {
+  opacity: 1;
+  transition: opacity 0s linear calc(var(--i) * var(--type-speed));
+}
+
+/* "/#section" for the hovered link types in at the same speed each time it changes */
+.navbar-path span {
+  animation: type-in 0s calc(var(--i) * var(--type-speed)) both;
+}
+
+@keyframes type-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .navbar ul {
@@ -105,13 +138,53 @@ ul {
   padding-block: 0.6rem;
   text-decoration: none;
   font-size: 0.9rem;
-  transition: background 0.15s ease;
+  transition: background 0.3s ease;
 }
 
 /* hovered row: full-width darker band */
 .navbar a:hover,
 .navbar a:focus-visible {
-  background: var(--panel);
+  background: var(--accent);
+}
+
+/* projects dropdown: toggled by hovering the projects link (shown only while the bar is expanded),
+   also opens on keyboard focus; items appear one by one */
+.nav-submenu {
+  display: grid;
+  grid-template-rows: 0fr; /* animates to 1fr to slide open */
+  visibility: hidden; /* keeps closed items out of the tab order */
+  transition: grid-template-rows 0.25s ease, visibility 0.25s;
+}
+
+.navbar:hover .nav-submenu.open,
+.navbar li:focus-within > .nav-submenu {
+  grid-template-rows: 1fr;
+  visibility: visible;
+}
+
+.nav-submenu ul {
+  overflow: hidden;
+  margin: 0;
+}
+
+.nav-submenu a {
+  /* lines the arrow up under the label text */
+  padding-left: calc((var(--nav-width) - 1.5rem) / 2 + 2.25rem);
+  padding-block: 0.35rem;
+  font-size: 0.8rem;
+}
+
+.nav-submenu li {
+  opacity: 0;
+  transform: translateX(-0.5rem);
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.navbar:hover .nav-submenu.open li,
+.navbar li:focus-within > .nav-submenu li {
+  opacity: 1;
+  transform: none;
+  transition-delay: calc(var(--i) * var(--type-speed));
 }
 
 .nav-icon {
@@ -134,41 +207,41 @@ ul {
 section {
   padding: 1.5rem 0;
   scroll-margin-top: 1rem;
-  /* background-color: #a3b5c4;
-  border-radius: 10px; */
+  /* background-color: var(--dark); */
 
   margin-bottom: 5rem;
 }
 
 section + section {
-  border-top: 0.375rem solid var(--divider);
+  border-top: 0.375rem solid var(--accent);
 }
 
-/* hero */
-.hero-banner {
-  height: 15rem;
-  margin-bottom: 1rem;
-  background: repeating-linear-gradient(90deg, #4a86d4 0 3px, transparent 3px 7px),
-    linear-gradient(#cfe0f0, #aec2d3);
-  opacity: 0.8;
+.particles
+{
+  width: 100%;
+  height: 50vh;
+  object-fit: cover;
+  display: block;
+  margin-bottom: 1.85rem;
 }
 
 .hero-container
 {
-    background-color: #8fa6ba;
+    background-color: var(--dark);
     padding: 0.625rem;
     border-radius: 0.3rem;
 }
 
 .hero p {
   margin: 0.5rem 0;
+  margin-bottom: 1.85rem;
 }
 
 /* projects */
 .project-player {
   position: relative;
-  height: 20rem;
-  background: var(--panel);
+  height: 25rem;
+  background: var(--dark);
   overflow: hidden;
 }
 
@@ -181,8 +254,8 @@ section + section {
 
 .project-placeholder {
   position: absolute;
-  top: 1rem;
-  left: 1rem;
+  top: var(--indent);
+  left: var(--indent);
   font-size: 1.2rem;
 }
 
@@ -198,7 +271,7 @@ section + section {
   width: 4rem;
   height: 3rem;
   border: 2px solid transparent;
-  background: var(--panel-light) center / cover;
+  background: var(--accent) center / cover;
   cursor: pointer;
   color: var(--text);
   font-size: 0.7rem;
@@ -218,8 +291,8 @@ section + section {
   align-items: flex-start;
   gap: 0.75rem;
   margin-top: 1rem;
-  padding: 1rem;
-  background: var(--panel);
+  padding: var(--indent);
+  background: var(--mid);
 }
 
 .project-info p {
@@ -234,7 +307,7 @@ section + section {
 
 .tech-list li {
   padding: 0.25rem 0.6rem;
-  background: var(--panel-light);
+  background: var(--dark);
   font-size: 0.85rem;
 }
 
@@ -266,7 +339,7 @@ section + section {
   gap: 0.35rem;
   margin-left: auto;
   padding: 0.25rem 0.6rem;
-  background: var(--divider);
+  background: var(--accent);
   color: var(--text);
   text-decoration: none;
   font-size: 0.85rem;
@@ -284,6 +357,12 @@ section + section {
 .live-link.disabled {
   opacity: 0.4;
   pointer-events: none;
+}
+
+/* about + contact: each fills at least one screen */
+.about,
+.contact {
+  min-height: 100vh;
 }
 
 /* contact */
@@ -310,7 +389,7 @@ section + section {
   align-items: center;
   margin: 0 var(--page-margin) 1rem calc(var(--nav-width) + var(--page-margin));
   padding: 1rem 2rem;
-  background: #5f7184;
+  background: var(--mid);
 }
 
 .footer p {
@@ -346,7 +425,8 @@ section + section {
 
   /* no hover on phones: icons always visible, section labels hidden */
 
-  .navbar a .nav-label {
+  .navbar a .nav-label,
+  .nav-submenu {
     display: none;
   }
 

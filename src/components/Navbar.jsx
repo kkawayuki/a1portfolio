@@ -1,3 +1,6 @@
+import { useState } from 'react'
+import projects from '../data/projects.js'
+
 // placeholder icons (simple inline svgs) - swap for your own later
 const icons = {
   home: (
@@ -27,14 +30,55 @@ const links = [
   { href: '#contact', label: 'contact' },
 ]
 
-function Navbar() {
+function Navbar({ onSelectProject }) {
+  // label of the link being hovered/focused, shown as "/#label" after the domain
+  const [active, setActive] = useState(null)
+  // projects dropdown flips open/closed each time the projects link is hovered
+  const [projectsOpen, setProjectsOpen] = useState(false)
+
   return (
     <nav className="navbar">
-      <h2 className="navbar-title">kykawa</h2>
+      <h2 className="navbar-title">
+        <span>
+          kykawa
+          {/* typed out one character at a time when the navbar expands */}
+          <span className="navbar-domain">
+            {[...'.com'].map((char, i) => (
+              <span key={i} style={{ '--i': i }}>
+                {char}
+              </span>
+            ))}
+          </span>
+          {active && (
+            // keyed so it remounts and types again whenever the link changes
+            <span key={active} className="navbar-path">
+              {[...`/#${active}`].map((char, i) => (
+                <span key={i} style={{ '--i': i }}>
+                  {char}
+                </span>
+              ))}
+            </span>
+          )}
+        </span>
+      </h2>
       <ul>
         {links.map((link) => (
-          <li key={link.href}>
-            <a href={link.href}>
+          <li
+            key={link.href}
+            // on the li so the path stays while moving into the projects dropdown
+            onMouseEnter={() => setActive(link.label)}
+            onMouseLeave={() => setActive(null)}
+            onFocus={() => setActive(link.label)}
+            onBlur={(e) => {
+              if (!e.currentTarget.contains(e.relatedTarget)) setActive(null)
+            }}
+          >
+            <a
+              href={link.href}
+              onMouseEnter={
+                link.label === 'projects' ? () => setProjectsOpen((open) => !open) : undefined
+              }
+            >
               <svg
                 className="nav-icon"
                 viewBox="0 0 24 24"
@@ -48,6 +92,19 @@ function Navbar() {
               </svg>
               <span className="nav-label">{link.label}</span>
             </a>
+            {link.label === 'projects' && (
+              <div className={projectsOpen ? 'nav-submenu open' : 'nav-submenu'}>
+                <ul>
+                  {projects.map((p, i) => (
+                    <li key={p.title} style={{ '--i': i }}>
+                      <a href="#projects" onClick={() => onSelectProject(i)}>
+                        ↳ {p.keyword}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </li>
         ))}
       </ul>

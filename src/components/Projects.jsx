@@ -1,9 +1,7 @@
-import { useState } from 'react'
 import ProjectNode from './Projectnode.jsx'
 import projects from '../data/projects.js'
 
-function Projects() {
-  const [selected, setSelected] = useState(0)
+function Projects({ selected, onSelect }) {
   const project = projects[selected]
 
   return (
@@ -23,7 +21,7 @@ function Projects() {
               key={p.title}
               project={p}
               isSelected={i === selected}
-              onSelect={() => setSelected(i)}
+              onSelect={() => onSelect(i)}
             />
           ))}
         </div>

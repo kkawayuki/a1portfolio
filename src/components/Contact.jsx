@@ -8,16 +8,18 @@ const socials = [
 function Contact() {
   return (
     <section id="contact" className="contact">
-      <h2>contact</h2>
-      <ul className="social-list">
-        {socials.map((s) => (
-          <li key={s.label}>
-            <a href={s.href} aria-label={s.label} target="_blank" rel="noreferrer">
-              {s.short}
-            </a>
-          </li>
-        ))}
-      </ul>
+      <div className="contact-container">
+        <h2>contact</h2>
+        <ul className="social-list">
+          {socials.map((s) => (
+            <li key={s.label}>
+              <a href={s.href} aria-label={s.label} target="_blank" rel="noreferrer">
+                {s.short}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
     </section>
   )
 }
