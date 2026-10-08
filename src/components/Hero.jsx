@@ -9,7 +9,7 @@ function Hero() {
 				<img className="particles" src={particles} />
 				<h1>kent kawashima</h1>
 				<p>
-					SWE@UCI 4th year    | jp/cn student | bay area | interested in
+					SWE@UCI 4th year | jp/cn student | bay area | interested in
 					fullstack development
 				</p>
 			</div>
