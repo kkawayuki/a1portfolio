@@ -12,7 +12,7 @@
     --indent: 1rem; /* inner padding for text inside boxes/bands */
     --shadow: 0 2px 8px rgb(0 0 0 / 0.2); /* slight shadow under large shapes */
 
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: Helvetica, Arial, sans-serif;
     color: var(--text);
     background: var(--light);
 }
@@ -250,7 +250,7 @@ section + section {
 
 .particles {
     width: 100%;
-    height: 20rem;
+    height: min(20rem, 40vh); /* shrinks on short screens */
     object-fit: cover;
     display: block;
     transform: scale(1.03);
@@ -296,8 +296,14 @@ section + section {
 }
 
 /* hero section */
-.hero{
-  padding: 10rem 0 10rem 0;
+/* one screen tall (minus the layout's 1rem top/bottom padding) with the card centered in it */
+.hero {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: calc(100vh - 2rem);
+    min-height: calc(100svh - 2rem); /* svh ignores mobile browser toolbars; older browsers keep the vh line */
+    padding: 0;
 }
 
 .hero-container {
@@ -315,7 +321,9 @@ section + section {
 /* projects */
 .project-player {
     position: relative;
-    height: 40rem;
+    /* 16:9 so it shrinks with the page width on narrow screens, capped for short screens */
+    aspect-ratio: 16 / 9;
+    max-height: min(40rem, 70vh);
     background: var(--dark);
     overflow: hidden;
     border-radius: 0.3rem;
@@ -424,6 +432,10 @@ section + section {
 }
 
 .slot-hidden {
+    display: none;
+}
+
+.title-short {
     display: none;
 }
 
@@ -585,23 +597,43 @@ section + section {
 }
 
 /* phones: sidebar becomes a top bar */
-@media (max-width: 600px) {
-    /* phones: label + current title only, still centered */
+@media (max-width: 1200px) {
+    /* phones: "projects" on its own row, short keywords (prev | current | next) centered below */
     .project-bar {
-        grid-template-columns: auto 1fr auto;
+        grid-template-columns: 1fr auto 1fr;
+        row-gap: 0.25rem;
     }
 
-    .slot-left,
-    .slot-right {
+    .project-bar-label {
+        grid-column: 1 / -1;
+    }
+
+    .project-bar-ghost {
         display: none;
+    }
+
+    .project-title {
+        grid-row: 2;
+    }
+
+    .slot-left {
+        grid-column: 1;
     }
 
     .slot-center {
         grid-column: 2;
     }
 
-    .project-bar-ghost {
+    .slot-right {
         grid-column: 3;
+    }
+
+    .title-full {
+        display: none;
+    }
+
+    .title-short {
+        display: inline;
     }
 
     /* no right margin on phones: bubble sits over the image's top-right corner instead */

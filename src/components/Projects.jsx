@@ -98,7 +98,9 @@ function Projects({ selected, onSelect }) {
               aria-current={slot === 'center' ? 'true' : undefined}
               tabIndex={slot === 'center' || slot === 'hidden' ? -1 : undefined}
             >
-              {p.title}
+              {/* CSS shows the full title on wide screens and the short keyword on phones */}
+              <span className="title-full">{p.title}</span>
+              <span className="title-short">{p.keyword}</span>
             </button>
           )
         })}
