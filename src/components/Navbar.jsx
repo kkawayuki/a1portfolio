@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import projects from '../data/projects.js'
+import socials from '../data/socials.jsx'
 
 // placeholder icons (simple inline svgs) - swap for your own later
 const icons = {
@@ -63,7 +64,7 @@ function Navbar({ onSelectProject }) {
         {links.map((link) => (
           <li
             key={link.href}
-            // on the li so the path stays while moving into the projects dropdown
+            // on the li so the path stays while moving into the projects/contact dropdowns
             onMouseEnter={() => setActive(link.label)}
             onMouseLeave={() => setActive(null)}
             onFocus={() => setActive(link.label)}
@@ -92,6 +93,19 @@ function Navbar({ onSelectProject }) {
                     <li key={p.title} style={{ '--i': i }}>
                       <a href="#projects" onClick={() => onSelectProject(i)}>
                         ↳ {p.keyword}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            {link.label === 'contact' && (
+              <div className="nav-submenu">
+                <ul>
+                  {socials.map((s, i) => (
+                    <li key={s.label} style={{ '--i': i }}>
+                      <a href={s.href} target="_blank" rel="noreferrer">
+                        ↳ {s.label.toLowerCase()}
                       </a>
                     </li>
                   ))}
