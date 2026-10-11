@@ -25,7 +25,7 @@ const icons = {
 }
 
 const links = [
-  { href: '#top', label: 'home' },
+  { href: '#hero', label: 'home' },
   { href: '#projects', label: 'projects' },
   { href: '#about', label: 'about' },
   { href: '#contact', label: 'contact' },
