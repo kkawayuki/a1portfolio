@@ -25,7 +25,7 @@ const icons = {
 }
 
 const links = [
-  { href: '#hero', label: 'home' },
+  { href: '#top', label: 'home' },
   { href: '#projects', label: 'projects' },
   { href: '#about', label: 'about' },
   { href: '#contact', label: 'contact' },
@@ -65,8 +65,11 @@ function Navbar({ onSelectProject }) {
           <li
             key={link.href}
             // on the li so the path stays while moving into the projects/contact dropdowns
-            onMouseEnter={() => setActive(link.label)}
-            onMouseLeave={() => setActive(null)}
+            // mouse only: on touch, a tap fires this first, and the path widening the title shifts the icons mid-tap
+            onPointerEnter={(e) => {
+              if (e.pointerType === 'mouse') setActive(link.label)
+            }}
+            onPointerLeave={() => setActive(null)}
             onFocus={() => setActive(link.label)}
             onBlur={(e) => {
               if (!e.currentTarget.contains(e.relatedTarget)) setActive(null)

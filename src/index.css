@@ -676,6 +676,11 @@ section + section {
 
     /* no hover on phones: icons always visible, section labels hidden */
 
+    /* no "/#section" typing in the top bar: it would widen the title and shift the icons under the finger */
+    .navbar-path {
+        display: none;
+    }
+
     .navbar a .nav-label,
     .nav-submenu {
         display: none;
